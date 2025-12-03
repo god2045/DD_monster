@@ -1,0 +1,466 @@
+/* 区域折叠样式 */
+.region-section {
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.region-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.region-header:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.region-header .arrow {
+  transition: transform 0.3s;
+}
+
+.region-header.collapsed .arrow {
+  transform: rotate(-90deg);
+}
+
+.region-monsters {
+  padding: 15px;
+  background: #f8f9fa;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s;
+}
+
+.region-monsters.expanded {
+  max-height: 2000px; /* 足够大的值容纳内容 */
+  padding: 15px;
+}
+
+/* 模态框样式优化 */
+.modal-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 20px;
+  margin: 30px auto;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+}
+
+/* 紧凑的详情项样式 */
+.detail-item {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid;
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  transition: background-color 0.2s;
+}
+
+.detail-item:hover {
+  background: #e9ecef;
+}
+
+/* 不同类型的边框颜色 */
+.detail-item.basic {
+  border-left-color: #4a90e2;
+  background: #e3f2fd;
+}
+
+.detail-item.stats {
+  border-left-color: #28a745;
+  background: #d4edda;
+}
+
+.detail-item.combat {
+  border-left-color: #dc3545;
+  background: #f8d7da;
+}
+
+.detail-item.skills {
+  border-left-color: #ffc107;
+  background: #fff3cd;
+}
+
+.detail-item.background {
+  border-left-color: #6f42c1;
+  background: #e9ecef;
+}
+
+/* 标签和值的紧凑布局 */
+.detail-label {
+  font-weight: 600;
+  color: #495057;
+  min-width: 70px;
+  font-size: 13px;
+  margin-right: 8px;
+  text-align: right;
+}
+
+.detail-value {
+  color: #212529;
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* 特殊值的样式 */
+.hp-value {
+  color: #dc3545;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.resistance-value {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.type-value {
+  color: #4a90e2;
+  font-weight: bold;
+}
+
+/* 技能和背景的块状显示 */
+.skills-block,
+.background-block {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  border-left: 2px solid;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.skills-block {
+  border-left-color: #ffc107;
+}
+
+.background-block {
+  border-left-color: #6f42c1;
+  font-style: italic;
+}
+
+/* 网格布局优化 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.stat-item {
+  background: white;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  text-align: center;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #6c757d;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* 滚动条样式 */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+body {
+  font-family: Arial;
+  margin: 20px;
+}
+.region {
+  margin-bottom: 30px;
+}
+.region-title {
+  background: #4a90e2;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.monster-card {
+  display: inline-block;
+  background: #f5f5f5;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+}
+.monster-card:hover {
+  background: #e0e0e0;
+}
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  margin: 50px auto;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 5px;
+}
+.close {
+  float: right;
+  cursor: pointer;
+}
+
+/* 怪物卡片样式 */
+.monster-card {
+  display: inline-block;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 12px 15px;
+  margin: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #dee2e6;
+  width: 180px;
+  vertical-align: top;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.monster-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+}
+
+.monster-name {
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.monster-type {
+  display: inline-block;
+  background: #6c757d;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.monster-hp {
+  color: #dc3545;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.monster-region {
+  color: #28a745;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* 添加动画效果 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s;
+}
+
+.modal-content {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 模态框样式 */
+.modal-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 30px;
+  margin: 50px auto;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid #e0e0e0;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+  color: #666;
+  transition: color 0.3s;
+}
+
+.close:hover {
+  color: #333;
+}
+
+#modal-title {
+  color: #2c3e50;
+  border-bottom: 2px solid #4a90e2;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* 详情内容样式 */
+.detail-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #4a90e2;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #495057;
+  margin-right: 10px;
+  min-width: 80px;
+  display: inline-block;
+}
+
+.detail-value {
+  color: #212529;
+}
+
+/* 属性网格布局 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.stat-item {
+  background: white;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #6c757d;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* 特殊样式 */
+.hp-value {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.resistance-value {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.skills-box {
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 10px;
+  border-left: 4px solid #2196f3;
+}
+
+.background-box {
+  background: #fff3cd;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 10px;
+  border-left: 4px solid #ffc107;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+#filters {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#search,
+#region-filter,
+#type-filter {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-width: 150px;
+}
